@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize')
-const sequelize = require("../config/db")
+const { DataTypes } = require('sequelize');
+const sequelize = require("../config/db");
 
 const Venta = sequelize.define('Venta', {
     id: {
@@ -7,18 +7,22 @@ const Venta = sequelize.define('Venta', {
         autoIncrement: true,
         primaryKey: true
     },
+    clienteId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     fecha: {
         type: DataTypes.DATE,
+        allowNull: false,
         defaultValue: DataTypes.NOW
     },
     total: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
+        type: DataTypes.DECIMAL(10, 2), 
         defaultValue: 0
     }
 }, {
-    tableName: 'ventas',
-    timestamps: true
-})
+    tableName: 'venta',
+    timestamps: true 
+});
 
-module.exports = Venta
+module.exports = Venta;

@@ -1,6 +1,6 @@
 const User = require("../models/user")
 const { generateToken, verifyToken } = require("../middleware/auth.middleware")
-const { UnauthorizedError, ValidationError, NotFoundError } = require("../utils/errors")
+const { UnauthorizedError, ValidationError, NotFoundError, ForbiddenError } = require("../utils/errors")
 
 const authController = {
   register: async (req, res, next) => {
@@ -9,6 +9,10 @@ const authController = {
 
       if (!email || !password) {
         throw new ValidationError("Email and password are required")
+      }
+
+      if (rol === "admin" && (!req.user || req.user.rol !== "admin")) {
+        throw new ForbiddenError("Cannot create admin user")
       }
 
       const existingUser = await User.findOne({ where: { email } })

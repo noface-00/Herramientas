@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
-const { UnauthorizedError } = require("../utils/errors")
+const { UnauthorizedError, ForbiddenError } = require("../utils/errors")
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key"
+const JWT_SECRET = process.env.JWT_SECRET || "your-super-secret-jwt-key-change-in-production"
 
 const authenticate = (req, res, next) => {
   try {
@@ -19,6 +19,18 @@ const authenticate = (req, res, next) => {
   }
 }
 
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return next(new UnauthorizedError("Not authenticated"))
+    }
+    if (!roles.includes(req.user.rol)) {
+      return next(new ForbiddenError("Insufficient permissions"))
+    }
+    next()
+  }
+}
+
 const generateToken = (payload) => {
   const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: "15m" })
   const refreshToken = jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" })
@@ -31,6 +43,7 @@ const verifyToken = (token) => {
 
 module.exports = {
   authenticate,
+  authorize,
   generateToken,
   verifyToken,
   JWT_SECRET,

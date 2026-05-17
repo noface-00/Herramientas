@@ -100,7 +100,7 @@ export function Productos() {
       const saved = await response.json()
 
       if (editando) {
-        setProductos([...productos, saved])
+        setProductos(productos.map(p => p.id === productoParaEditar?.id ? saved : p))
       } else {
         setProductos(prev => [...prev, saved])
       }
@@ -112,7 +112,6 @@ export function Productos() {
         stock: '',
         categoriaId: ''
       })
-      setFormulario(formulario)
       setEditando(false)
       setMensaje(editando ? 'Producto actualizado' : 'Producto creado')
 
@@ -120,6 +119,7 @@ export function Productos() {
       setProductoParaEditar(null)
     } catch (error) {
       console.error('Error al guardar producto:', error)
+      setMensaje(error instanceof Error ? `Error: ${error.message}` : "Error al guardar producto")
     } finally {
       setCargando(false)
     }
@@ -211,7 +211,7 @@ export function Productos() {
             setFormulario({ ...formulario, nombre: e.target.value })
           }}
           required
-          disabled={editando}
+          disabled={cargando}
         />
 
         <NeonInput
@@ -220,7 +220,7 @@ export function Productos() {
           onChange={(e) => {
             setFormulario({ ...formulario, descripcion: e.target.value })
           }}
-          disabled={editando}
+          disabled={cargando}
         />
 
         <div className="p-2.5 grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
@@ -232,7 +232,7 @@ export function Productos() {
             }}
             type="number"
             step="0.01"
-            disabled={editando}
+            disabled={cargando}
           />
 
           <NeonInput
@@ -243,7 +243,7 @@ export function Productos() {
             }}
             type="number"
             min="0"
-            disabled={editando}
+            disabled={cargando}
           />
 
           <div>
@@ -253,7 +253,7 @@ export function Productos() {
               onChange={(e) => {
                 setFormulario({ ...formulario, categoriaId: e.target.value })
               }}
-              disabled={editando}
+              disabled={cargando}
               className="w-full bg-surface-container-low border border-outline-variant rounded-none px-4 py-2 text-code-snippet text-on-surface focus:ring-0 focus:border-primary-fixed-dim focus:outline-none transition-colors disabled:opacity-50"
             >
               <option value="">Seleccione una categoría</option>
@@ -268,8 +268,7 @@ export function Productos() {
           type="submit"
           variant="primary"
           size="lg"
-          onClick={(e) => (e as React.MouseEvent<HTMLButtonElement>).preventDefault()}
-          disabled={editando || cargando}
+          disabled={cargando}
         >
           Guardar
         </NeonButton>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { NeonCard, NeonButton, NeonHeader, NeonStatusTag, NeonInput } from "../components/NeonProtocol"
+import { NeonCard, NeonButton, NeonHeader, NeonInput } from "../components/NeonProtocol"
 
 interface Cliente {
   id: number

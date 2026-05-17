@@ -1,8 +1,9 @@
 import { Outlet, Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 
+
 export function Layout() {
-  const { user, logout } = useAuth()
+  const { logout } = useAuth()
 
   return (
     <div className="font-body-md overflow-x-hidden text-on-surface">
@@ -44,7 +45,7 @@ export function Layout() {
                 <img alt="Admin" className="w-full h-full grayscale brightness-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_2qmbQPiRsbqfUICiciFnDf0x5xkITPD-UrrfaezJIcuoM6DqXqyZwg3Jb3-xcLqCOEOtQXlegHYt38MAFOfjVGxNJzfJAk8xTdfI-K3NUgWCdYjh7H46d3I83wQsMSlc3WoFCuCCaKU-2ifMk3obdtF5D_aGIh-VljcO2wQvGDfPyE5sz6NGoF8nbW856ngtqIFtYPR1z8J010OnBUaE86adW-CZxELva1TRNmMSKN-WUpQDVNes5AlDpg8iB4h_fCP0nsR8yTc" />
               </div>
               <div>
-                <div className="font-headline-sm text-[16px] text-secondary-fixed leading-none">{user?.email?.split('@')[0]?.toUpperCase() || 'ROOT_USER'}</div>
+                <div className="font-headline-sm text-[16px] text-secondary-fixed leading-none">ROOT_USER</div>
                 <div className="font-code-snippet text-[10px] text-on-surface-variant mt-1">Level 7 Clearance</div>
               </div>
             </div>
@@ -86,7 +87,7 @@ export function Layout() {
             </button>
           </div>
         </aside>
-        
+
         {/* Main Content Canvas */}
         <main className="ml-[260px] flex-1 p-6 min-h-screen bg-surface">
           <Outlet />

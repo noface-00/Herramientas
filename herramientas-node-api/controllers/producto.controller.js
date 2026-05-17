@@ -58,6 +58,13 @@ const productoController = {
 
       const { nombre, descripcion, precio, stock, categoriaId } = req.body
 
+      if (precio === null || precio === undefined || isNaN(Number(precio))) {
+        throw new ValidationError("El precio es obligatorio y debe ser numérico")
+      }
+      if (!nombre || nombre.trim() === '') {
+        throw new ValidationError("El nombre es obligatorio")
+      }
+
       if (precio !== undefined && Number(precio) < 0) {
         throw new ValidationError("El precio no puede ser negativo")
       }

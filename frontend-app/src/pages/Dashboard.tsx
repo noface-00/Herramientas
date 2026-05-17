@@ -5,7 +5,9 @@ export function Dashboard() {
     ventasTotales: 0,
     clientesTotales: 0,
     productos: 0,
-    categorias: 0
+    categorias: 0,
+    productosBajoStock: [] as any[],
+    ventasRecientes: [] as any[]
   })
 
   const fetchDashboard = async () => {
@@ -44,25 +46,25 @@ export function Dashboard() {
             <span className="font-code-snippet text-[11px] text-outline">0x01_TOTAL_PROD</span>
             <span className="material-symbols-outlined text-primary-fixed-dim text-[20px]">inventory_2</span>
           </div>
-          <div className="font-headline-md text-primary-fixed-dim">14,209</div>
+          <div className="font-headline-md text-primary-fixed-dim">{estadisticas.productos}</div>
           <div className="text-[10px] mt-2 text-on-secondary-fixed-variant">+12.5% vs PREV_CYCLE</div>
         </div>
-        {/* Low Stock (Amber Accent) */}
+        {/* Total Clients */}
         <div className="ascii-border border-secondary-fixed-dim p-4 bg-surface-container-low glitch-hover">
           <div className="flex justify-between items-start mb-4">
-            <span className="font-code-snippet text-[11px] text-secondary-fixed">0x02_LOW_STOCK</span>
-            <span className="material-symbols-outlined text-secondary-fixed text-[20px]">warning</span>
+            <span className="font-code-snippet text-[11px] text-secondary-fixed">0x02_TOTAL_CLIENTS</span>
+            <span className="material-symbols-outlined text-secondary-fixed text-[20px]">groups</span>
           </div>
           <div className="font-headline-md text-secondary-fixed">{estadisticas.clientesTotales}</div>
-          <div className="text-[10px] mt-2 text-secondary-fixed-dim">REQUIRES_REPLENISHMENT</div>
+          <div className="text-[10px] mt-2 text-secondary-fixed-dim">ACTIVE_PROFILES</div>
         </div>
-        {/* Daily Sales */}
+        {/* Total Categories */}
         <div className="ascii-border p-4 bg-surface-container-low glitch-hover">
           <div className="flex justify-between items-start mb-4">
-            <span className="font-code-snippet text-[11px] text-outline">0x03_DAILY_TX</span>
-            <span className="material-symbols-outlined text-primary-fixed-dim text-[20px]">trending_up</span>
+            <span className="font-code-snippet text-[11px] text-outline">0x03_CATEGORIES</span>
+            <span className="material-symbols-outlined text-primary-fixed-dim text-[20px]">category</span>
           </div>
-          <div className="font-headline-md text-primary-fixed-dim">{estadisticas.productos}</div>
+          <div className="font-headline-md text-primary-fixed-dim">{estadisticas.categorias}</div>
           <div className="text-[10px] mt-2 text-on-surface-variant">NODE_VOLUME: OPTIMAL</div>
         </div>
         {/* Total Revenue */}
@@ -71,7 +73,7 @@ export function Dashboard() {
             <span className="font-code-snippet text-[11px] text-outline">0x04_NET_REV</span>
             <span className="material-symbols-outlined text-primary-fixed-dim text-[20px]">payments</span>
           </div>
-          <div className="font-headline-md text-primary-fixed-dim">¤ {estadisticas.ventasTotales.toFixed(2)}</div>
+          <div className="font-headline-md text-primary-fixed-dim">¤ {Number(estadisticas.ventasTotales || 0).toFixed(2)}</div>
           <div className="text-[10px] mt-2 text-primary-fixed-dim tracking-widest">[████████░░░░] 65%</div>
         </div>
       </div>
@@ -99,41 +101,20 @@ export function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-outline-variant hover:bg-primary/5">
-                  <td className="p-3 text-primary-fixed-dim">#FF-0192</td>
-                  <td className="p-3">09:41:22</td>
-                  <td className="p-3">CYBERDYNE_SYS</td>
-                  <td className="p-3 text-right">¤ 4,200.00</td>
-                  <td className="p-3 text-center"><span className="px-2 py-0.5 border border-primary-fixed-dim text-[10px]">VERIFIED</span></td>
-                </tr>
-                <tr className="border-b border-outline-variant hover:bg-primary/5">
-                  <td className="p-3 text-primary-fixed-dim">#FF-0191</td>
-                  <td className="p-3">09:38:10</td>
-                  <td className="p-3">TYRELL_CORP</td>
-                  <td className="p-3 text-right">¤ 12,850.50</td>
-                  <td className="p-3 text-center"><span className="px-2 py-0.5 border border-primary-fixed-dim text-[10px]">VERIFIED</span></td>
-                </tr>
-                <tr className="border-b border-outline-variant hover:bg-primary/5">
-                  <td className="p-3 text-primary-fixed-dim">#FF-0190</td>
-                  <td className="p-3">09:12:45</td>
-                  <td className="p-3">RE_WEYLAND</td>
-                  <td className="p-3 text-right">¤ 820.00</td>
-                  <td className="p-3 text-center"><span className="px-2 py-0.5 border border-primary-fixed-dim text-[10px]">VERIFIED</span></td>
-                </tr>
-                <tr className="border-b border-outline-variant hover:bg-primary/5">
-                  <td className="p-3 text-primary-fixed-dim">#FF-0189</td>
-                  <td className="p-3">08:55:01</td>
-                  <td className="p-3">ZION_NODE_4</td>
-                  <td className="p-3 text-right">¤ 2,150.00</td>
-                  <td className="p-3 text-center"><span className="px-2 py-0.5 border border-secondary-fixed-dim text-secondary-fixed text-[10px]">PENDING</span></td>
-                </tr>
-                <tr className="hover:bg-primary/5">
-                  <td className="p-3 text-primary-fixed-dim">#FF-0188</td>
-                  <td className="p-3">08:32:19</td>
-                  <td className="p-3">WALLACE_INT</td>
-                  <td className="p-3 text-right">¤ 5,500.00</td>
-                  <td className="p-3 text-center"><span className="px-2 py-0.5 border border-primary-fixed-dim text-[10px]">VERIFIED</span></td>
-                </tr>
+                {estadisticas.ventasRecientes && estadisticas.ventasRecientes.map((venta, i) => (
+                  <tr key={venta.id || i} className="border-b border-outline-variant hover:bg-primary/5">
+                    <td className="p-3 text-primary-fixed-dim">#{venta.id}</td>
+                    <td className="p-3">{new Date(venta.fecha).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                    <td className="p-3">{venta.cliente ? `${venta.cliente.nombres} ${venta.cliente.apellidos}` : 'DESCONOCIDO'}</td>
+                    <td className="p-3 text-right">¤ {Number(venta.total).toFixed(2)}</td>
+                    <td className="p-3 text-center"><span className="px-2 py-0.5 border border-primary-fixed-dim text-[10px]">VERIFIED</span></td>
+                  </tr>
+                ))}
+                {(!estadisticas.ventasRecientes || estadisticas.ventasRecientes.length === 0) && (
+                  <tr>
+                    <td colSpan={5} className="p-4 text-center text-on-surface-variant italic text-[11px]">NO_RECENT_TRANSACTIONS</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -145,36 +126,23 @@ export function Dashboard() {
             <span className="material-symbols-outlined text-error text-[18px]">emergency_home</span>
           </div>
           <div className="p-4 space-y-4">
-            <div className="border-l-2 border-error pl-3">
-              <div className="flex justify-between text-[11px] mb-1">
-                <span className="text-error font-bold">CRITICAL_01</span>
-                <span className="text-on-surface-variant">QTY: 02</span>
+            {estadisticas.productosBajoStock && estadisticas.productosBajoStock.map((prod, i) => (
+              <div key={prod.id || i} className={`border-l-2 ${prod.stock === 0 ? 'border-error' : 'border-secondary-fixed-dim'} pl-3`}>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className={`${prod.stock === 0 ? 'text-error' : 'text-secondary-fixed'} font-bold`}>
+                    {prod.stock === 0 ? 'CRITICAL' : 'WARNING'}
+                  </span>
+                  <span className="text-on-surface-variant">QTY: {prod.stock.toString().padStart(2, '0')}</span>
+                </div>
+                <div className="text-[13px] font-bold uppercase">{prod.nombre}</div>
+                <div className="w-full bg-surface-container-highest h-1.5 mt-2 overflow-hidden">
+                  <div className={`${prod.stock === 0 ? 'bg-error' : 'bg-secondary-fixed-dim'} h-full transition-all`} style={{ width: `${Math.min(Math.max(prod.stock * 10, 5), 100)}%` }}></div>
+                </div>
               </div>
-              <div className="text-[13px] font-bold">NEURAL_LINK_MODULE_V4</div>
-              <div className="w-full bg-surface-container-highest h-1.5 mt-2 overflow-hidden">
-                <div className="bg-error h-full w-[10%]"></div>
-              </div>
-            </div>
-            <div className="border-l-2 border-error pl-3">
-              <div className="flex justify-between text-[11px] mb-1">
-                <span className="text-error font-bold">CRITICAL_02</span>
-                <span className="text-on-surface-variant">QTY: 05</span>
-              </div>
-              <div className="text-[13px] font-bold">HAPTIC_RIG_ACTUATOR</div>
-              <div className="w-full bg-surface-container-highest h-1.5 mt-2 overflow-hidden">
-                <div className="bg-error h-full w-[25%]"></div>
-              </div>
-            </div>
-            <div className="border-l-2 border-secondary-fixed-dim pl-3">
-              <div className="flex justify-between text-[11px] mb-1">
-                <span className="text-secondary-fixed font-bold">WARNING_03</span>
-                <span className="text-on-surface-variant">QTY: 12</span>
-              </div>
-              <div className="text-[13px] font-bold">CRYPTO_KEY_INJECTOR</div>
-              <div className="w-full bg-surface-container-highest h-1.5 mt-2 overflow-hidden">
-                <div className="bg-secondary-fixed-dim h-full w-[45%]"></div>
-              </div>
-            </div>
+            ))}
+            {(!estadisticas.productosBajoStock || estadisticas.productosBajoStock.length === 0) && (
+              <div className="text-center text-on-surface-variant italic p-4 text-[11px]">ALL_SYSTEMS_OPTIMAL<br/>NO_STOCK_ALERTS</div>
+            )}
             <button className="w-full mt-4 py-2 text-center text-[11px] border border-outline-variant hover:bg-outline-variant transition-colors text-on-surface-variant">
               GENERATE_REQUISITION_ORDER
             </button>

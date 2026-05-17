@@ -8,6 +8,7 @@ import { Clientes } from "./pages/Clientes"
 import { Ventas } from "./pages/Ventas"
 import { Categorias } from "./pages/Categorias"
 import { Dashboard } from "./pages/Dashboard"
+import { Reportes } from "./pages/Reportes"
 import './styles/neon-protocol.css'
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="clientes" element={<Clientes />} />
             <Route path="ventas" element={<Ventas />} />
             <Route path="categorias" element={<Categorias />} />
+            <Route path="reportes" element={<Reportes />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

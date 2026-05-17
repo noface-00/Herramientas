@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { NeonCard, NeonButton, NeonHeader, NeonInput, NeonStatusTag } from "../components/NeonProtocol"
+import { NeonCard, NeonButton, NeonHeader, NeonInput } from "../components/NeonProtocol"
 
 interface Cliente {
   id: number
@@ -62,13 +62,13 @@ export function Clientes() {
   const handleEditar = (cliente: Cliente) => {
     setClienteParaEditar(cliente)
     setEditando(true)
-    setNuevoCliente({ 
-      identificacion: cliente.identificacion || "", 
-      nombres: cliente.nombres || "", 
-      apellidos: cliente.apellidos || "", 
-      email: cliente.email || "", 
-      telefono: cliente.telefono || "", 
-      direccion: cliente.direccion || "" 
+    setNuevoCliente({
+      identificacion: cliente.identificacion || "",
+      nombres: cliente.nombres || "",
+      apellidos: cliente.apellidos || "",
+      email: cliente.email || "",
+      telefono: cliente.telefono || "",
+      direccion: cliente.direccion || ""
     })
   }
 

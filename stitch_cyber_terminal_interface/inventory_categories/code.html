@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .terminal-glow {
+            box-shadow: 0 0 10px rgba(0, 219, 231, 0.2);
+        }
+        .neon-border {
+            border: 1px solid #3a494b;
+        }
+        .neon-border-focus {
+            border: 1px solid #00dbe7;
+            box-shadow: 0 0 5px rgba(0, 219, 231, 0.5);
+        }
+        .cursor-blink {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background-color: #00dbe7;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container": "#201f1f",
+                        "secondary-fixed-dim": "#2ae500",
+                        "on-background": "#e5e2e1",
+                        "primary-fixed": "#74f5ff",
+                        "on-surface-variant": "#b9cacb",
+                        "inverse-primary": "#00696f",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e5e2e1",
+                        "surface": "#131313",
+                        "outline": "#849495",
+                        "on-tertiary-container": "#c0003e",
+                        "tertiary-fixed": "#ffdadb",
+                        "on-secondary": "#053900",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-bright": "#3a3939",
+                        "surface-container-highest": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "background": "#131313",
+                        "on-tertiary": "#67001d",
+                        "secondary-fixed": "#79ff5b",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#fff5f5",
+                        "secondary": "#d7ffc5",
+                        "primary": "#e1fdff",
+                        "on-tertiary-fixed-variant": "#91002d",
+                        "on-secondary-fixed-variant": "#095300",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface-variant": "#353534",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-container": "#00f2ff",
+                        "surface-tint": "#00dbe7",
+                        "on-primary": "#00363a",
+                        "on-secondary-fixed": "#022100",
+                        "secondary-container": "#2ff801",
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#006a71",
+                        "outline-variant": "#3a494b",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#ffb2b8",
+                        "on-primary-fixed": "#002022",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "tertiary-container": "#ffcfd2",
+                        "on-tertiary-fixed": "#40000f",
+                        "primary-fixed-dim": "#00dbe7",
+                        "on-secondary-container": "#0f6d00"
+                    },
+                    "fontFamily": {
+                        "code-snippet": ["JetBrains Mono"],
+                        "body-lg": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-md": ["JetBrains Mono"],
+                        "headline-lg": ["JetBrains Mono"],
+                        "body-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "code-snippet": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-surface sticky top-0 z-50 h-[64px] w-full border-b border-outline-variant shadow-[0_0_10px_rgba(0,219,231,0.2)] flex justify-between items-center px-6">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-md text-headline-md text-primary-container tracking-tighter">NEON_PROTOCOL_V2.0</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center border border-outline-variant bg-surface-container-low px-3 py-1 gap-2">
+<span class="text-primary-fixed-dim font-code-snippet text-code-snippet">&gt; SEARCH_SYS:</span>
+<input class="bg-transparent border-none focus:ring-0 text-primary-fixed-dim font-code-snippet text-code-snippet w-48 p-0" placeholder="..." type="text"/>
+<span class="cursor-blink"></span>
+</div>
+<div class="flex items-center gap-4 text-primary-fixed-dim">
+<button class="hover:bg-primary/10 transition-all duration-100 p-1 active:opacity-50">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hover:bg-primary/10 transition-all duration-100 p-1 active:opacity-50">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+<button class="hover:bg-primary/10 transition-all duration-100 p-1 active:opacity-50">
+<span class="material-symbols-outlined">power_settings_new</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex flex-1">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col pt-6 h-auto w-[260px] bg-surface-container-lowest border-r border-outline-variant z-40">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 p-3 bg-surface-container border border-outline-variant">
+<div class="w-10 h-10 bg-primary-container/20 flex items-center justify-center border border-primary-container">
+<span class="material-symbols-outlined text-primary-container">person</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-secondary-fixed text-[14px]">ROOT_USER</div>
+<div class="font-code-snippet text-code-snippet text-on-surface-variant text-[10px]">Level 7 Clearance</div>
+</div>
+</div>
+</div>
+<nav class="flex flex-col flex-1 font-code-snippet text-code-snippet">
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Products
+                </a>
+<a class="bg-secondary-container text-on-secondary-container border-l-4 border-secondary-fixed-dim px-6 py-3 flex items-center gap-3 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">category</span> Categories
+                </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">groups</span> Clients
+                </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">payments</span> Sales
+                </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">analytics</span> Reports
+                </a>
+<a class="text-on-surface-variant px-6 py-3 flex items-center gap-3 hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span> Configuration
+                </a>
+</nav>
+<div class="p-6">
+<button class="w-full py-3 border border-secondary-fixed-dim text-secondary-fixed-dim font-bold hover:bg-secondary-fixed-dim hover:text-on-secondary-container transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span> NEW_ENTRY
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-6 md:p-8 overflow-y-auto">
+<!-- Terminal Header -->
+<div class="mb-8 border border-outline-variant bg-surface-container-low overflow-hidden">
+<div class="bg-surface-variant px-4 py-2 flex justify-between items-center border-b border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-sm">folder_open</span>
+<span class="font-code-snippet text-code-snippet text-on-surface-variant">SYS_ROOT/RESOURCES/CATEGORIES/LIST</span>
+</div>
+<div class="flex gap-2">
+<div class="w-3 h-3 border border-outline-variant"></div>
+<div class="w-3 h-3 border border-outline-variant"></div>
+<div class="w-3 h-3 border border-outline-variant bg-error/20"></div>
+</div>
+</div>
+<div class="p-6">
+<h2 class="font-headline-lg text-headline-lg text-primary-fixed-dim mb-2 uppercase">Category_Registry</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Manage system-level classification nodes for current inventory cycles. Data integrity checks required for all modifications.</p>
+</div>
+</div>
+<!-- Dashboard Stats Grid (Cyber-Brutalist Style) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+<div class="border border-outline-variant p-4 bg-surface-container-lowest">
+<div class="text-on-surface-variant font-label-sm text-label-sm mb-1 uppercase tracking-widest">Total_Nodes</div>
+<div class="text-primary-container font-headline-md text-headline-md">124</div>
+<div class="mt-2 h-1 w-full bg-outline-variant">
+<div class="h-full bg-primary-container w-3/4"></div>
+</div>
+</div>
+<div class="border border-outline-variant p-4 bg-surface-container-lowest">
+<div class="text-on-surface-variant font-label-sm text-label-sm mb-1 uppercase tracking-widest">Active_Links</div>
+<div class="text-secondary-fixed-dim font-headline-md text-headline-md">98.2%</div>
+<div class="mt-2 h-1 w-full bg-outline-variant">
+<div class="h-full bg-secondary-fixed-dim w-[98%]"></div>
+</div>
+</div>
+<div class="border border-outline-variant p-4 bg-surface-container-lowest">
+<div class="text-on-surface-variant font-label-sm text-label-sm mb-1 uppercase tracking-widest">Pending_Sync</div>
+<div class="text-tertiary-fixed-dim font-headline-md text-headline-md">03</div>
+<div class="mt-2 h-1 w-full bg-outline-variant">
+<div class="h-full bg-tertiary-fixed-dim w-1/4"></div>
+</div>
+</div>
+<div class="border border-outline-variant p-4 bg-surface-container-lowest">
+<div class="text-on-surface-variant font-label-sm text-label-sm mb-1 uppercase tracking-widest">System_Load</div>
+<div class="text-on-surface font-headline-md text-headline-md">STABLE</div>
+<div class="mt-2 h-1 w-full bg-outline-variant">
+<div class="h-full bg-on-surface w-1/2"></div>
+</div>
+</div>
+</div>
+<!-- Data Table Module -->
+<div class="border border-outline-variant bg-surface-container-lowest shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full border-collapse font-code-snippet text-code-snippet">
+<thead>
+<tr class="bg-surface-container text-primary-fixed-dim text-left uppercase border-b border-outline-variant">
+<th class="p-4 border-r border-outline-variant font-bold">Category Name</th>
+<th class="p-4 border-r border-outline-variant font-bold">Description</th>
+<th class="p-4 border-r border-outline-variant font-bold">Product Count</th>
+<th class="p-4 font-bold text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-secondary-container shadow-[0_0_5px_#2ae500]"></div>
+<span class="text-primary-container font-bold">CYBERNETICS_EXT</span>
+</div>
+</td>
+<td class="p-4 border-r border-outline-variant text-on-surface-variant">Neural-link interfaces and augmentative prosthetic hardware.</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="bg-surface-container px-2 py-1 border border-outline-variant">[ 1,402 ]</span>
+</td>
+<td class="p-4 text-center">
+<div class="flex justify-center gap-4">
+<button class="text-secondary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="text-primary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+<button class="text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">delete_forever</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-secondary-container shadow-[0_0_5px_#2ae500]"></div>
+<span class="text-primary-container font-bold">DATA_CRYPTS</span>
+</div>
+</td>
+<td class="p-4 border-r border-outline-variant text-on-surface-variant">Encrypted storage modules and decentralized backup nodes.</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="bg-surface-container px-2 py-1 border border-outline-variant">[ 0,854 ]</span>
+</td>
+<td class="p-4 text-center">
+<div class="flex justify-center gap-4">
+<button class="text-secondary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="text-primary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+<button class="text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">delete_forever</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-secondary-container shadow-[0_0_5px_#2ae500]"></div>
+<span class="text-primary-container font-bold">PULSE_ARMORY</span>
+</div>
+</td>
+<td class="p-4 border-r border-outline-variant text-on-surface-variant">Energy-based defensive systems and electromagnetic dampeners.</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="bg-surface-container px-2 py-1 border border-outline-variant">[ 0,312 ]</span>
+</td>
+<td class="p-4 text-center">
+<div class="flex justify-center gap-4">
+<button class="text-secondary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="text-primary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+<button class="text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">delete_forever</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-error shadow-[0_0_5px_#ffb4ab]"></div>
+<span class="text-primary-container font-bold">VOID_DRIVES</span>
+</div>
+</td>
+<td class="p-4 border-r border-outline-variant text-on-surface-variant">[DEPRECATED] High-density propulsion units using unstable dark matter.</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="bg-surface-container px-2 py-1 border border-outline-variant text-error">[ 0,004 ]</span>
+</td>
+<td class="p-4 text-center">
+<div class="flex justify-center gap-4">
+<button class="text-secondary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="text-primary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+<button class="text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">delete_forever</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-secondary-container shadow-[0_0_5px_#2ae500]"></div>
+<span class="text-primary-container font-bold">RE_GEN_BIO</span>
+</div>
+</td>
+<td class="p-4 border-r border-outline-variant text-on-surface-variant">Synthetic tissue scaffolding and rapid cellular regeneration serums.</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="bg-surface-container px-2 py-1 border border-outline-variant">[ 2,118 ]</span>
+</td>
+<td class="p-4 text-center">
+<div class="flex justify-center gap-4">
+<button class="text-secondary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="text-primary-fixed-dim hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+<button class="text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">delete_forever</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="bg-surface-container p-4 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-outline-variant">
+<div class="text-on-surface-variant text-[11px] font-code-snippet">
+                        DISPLAYING: 001-005 OF 124 ENTRIES | SYSTEM_STATUS: <span class="text-secondary-fixed-dim">NOMINAL</span>
+</div>
+<div class="flex items-center gap-1 font-code-snippet">
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container">
+<span class="material-symbols-outlined text-[18px]">first_page</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="px-3 h-8 flex items-center justify-center border border-primary-container bg-primary-container/10 text-primary-container font-bold">1</button>
+<button class="px-3 h-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container">2</button>
+<button class="px-3 h-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container">3</button>
+<span class="px-2 text-on-surface-variant">...</span>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container">
+<span class="material-symbols-outlined text-[18px]">last_page</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Terminal Console (System Output Simulation) -->
+<div class="mt-8 border border-outline-variant bg-surface p-4">
+<div class="flex items-center gap-2 mb-2 text-primary-fixed-dim border-b border-outline-variant pb-2">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="text-[12px] font-bold uppercase tracking-widest">Live_System_Log</span>
+</div>
+<div class="font-code-snippet text-[11px] text-secondary-fixed-dim space-y-1">
+<div>[08:42:11] :: SYNCING CATEGORY DATABASE... <span class="text-on-surface-variant">SUCCESS</span></div>
+<div>[08:42:15] :: USER: ROOT_USER ACCESSED CATEGORY_REGISTRY</div>
+<div>[08:43:02] :: WARNING: VOID_DRIVES NODE SHOWING CRITICAL DEPLETION</div>
+<div class="flex items-center gap-1">
+<span>[08:45:19] :: COMMAND_READY</span>
+<span class="cursor-blink"></span>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Responsive Footer Navigation (Mobile Only) -->
+<nav class="md:hidden sticky bottom-0 w-full bg-surface-container-lowest border-t border-outline-variant px-2 py-3 flex justify-around z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-code-snippet">DASH</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-code-snippet">PROD</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-secondary-fixed-dim">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">category</span>
+<span class="text-[10px] font-code-snippet">CAT</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[10px] font-code-snippet">USER</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-code-snippet">SET</span>
+</button>
+</nav>
+</body></html>

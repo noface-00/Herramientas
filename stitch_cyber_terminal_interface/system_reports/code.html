@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NEON_PROTOCOL_V2.0 | REPORTS_ANALYTICS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #131313;
+        }
+        .terminal-glow {
+            box-shadow: 0 0 10px rgba(0, 219, 231, 0.2);
+        }
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 219, 231, 0.02) 50%,
+                rgba(0, 219, 231, 0.02) 100%
+            );
+            background-size: 100% 4px;
+        }
+        .ascii-border {
+            border-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0H10V10H0V0Z' fill='%233a494b'/%3E%3C/svg%3E") 1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#1c1b1b",
+                      "surface-container": "#201f1f",
+                      "secondary-fixed-dim": "#2ae500",
+                      "on-background": "#e5e2e1",
+                      "primary-fixed": "#74f5ff",
+                      "on-surface-variant": "#b9cacb",
+                      "inverse-primary": "#00696f",
+                      "error": "#ffb4ab",
+                      "inverse-surface": "#e5e2e1",
+                      "surface": "#131313",
+                      "outline": "#849495",
+                      "on-tertiary-container": "#c0003e",
+                      "tertiary-fixed": "#ffdadb",
+                      "on-secondary": "#053900",
+                      "surface-container-lowest": "#0e0e0e",
+                      "surface-bright": "#3a3939",
+                      "surface-container-highest": "#353534",
+                      "on-surface": "#e5e2e1",
+                      "background": "#131313",
+                      "on-tertiary": "#67001d",
+                      "secondary-fixed": "#79ff5b",
+                      "on-error-container": "#ffdad6",
+                      "tertiary": "#fff5f5",
+                      "secondary": "#d7ffc5",
+                      "primary": "#e1fdff",
+                      "on-tertiary-fixed-variant": "#91002d",
+                      "on-secondary-fixed-variant": "#095300",
+                      "on-primary-fixed-variant": "#004f54",
+                      "surface-variant": "#353534",
+                      "surface-container-high": "#2a2a2a",
+                      "primary-container": "#00f2ff",
+                      "surface-tint": "#00dbe7",
+                      "on-primary": "#00363a",
+                      "on-secondary-fixed": "#022100",
+                      "secondary-container": "#2ff801",
+                      "surface-dim": "#131313",
+                      "on-primary-container": "#006a71",
+                      "outline-variant": "#3a494b",
+                      "inverse-on-surface": "#313030",
+                      "tertiary-fixed-dim": "#ffb2b8",
+                      "on-primary-fixed": "#002022",
+                      "error-container": "#93000a",
+                      "on-error": "#690005",
+                      "tertiary-container": "#ffcfd2",
+                      "on-tertiary-fixed": "#40000f",
+                      "primary-fixed-dim": "#00dbe7",
+                      "on-secondary-container": "#0f6d00"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin": "24px",
+                      "container-max-width": "1440px",
+                      "gutter": "16px",
+                      "unit": "4px"
+              },
+              "fontFamily": {
+                      "code-snippet": ["JetBrains Mono"],
+                      "body-lg": ["JetBrains Mono"],
+                      "label-sm": ["JetBrains Mono"],
+                      "headline-md": ["JetBrains Mono"],
+                      "headline-lg": ["JetBrains Mono"],
+                      "body-md": ["JetBrains Mono"]
+              },
+              "fontSize": {
+                      "code-snippet": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container scanline">
+<!-- TopNavBar -->
+<header class="bg-surface sticky top-0 z-50 h-[64px] w-full border-b border-outline-variant shadow-[0_0_10px_rgba(0,219,231,0.2)] flex justify-between items-center px-6">
+<div class="font-headline-md text-headline-md text-primary-container tracking-tighter">
+            NEON_PROTOCOL_V2.0
+        </div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container border border-outline-variant px-3 py-1 gap-2">
+<span class="text-primary-fixed-dim font-code-snippet text-code-snippet">&gt;</span>
+<input class="bg-transparent border-none focus:ring-0 text-code-snippet font-code-snippet text-on-surface placeholder:text-outline w-64 uppercase" placeholder="SEARCH_DATABASE..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-primary/10 hover:text-primary-fixed-dim transition-all duration-100 p-2 active:opacity-50">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-primary/10 hover:text-primary-fixed-dim transition-all duration-100 p-2 active:opacity-50">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+<button class="text-on-surface-variant hover:bg-primary/10 hover:text-primary-fixed-dim transition-all duration-100 p-2 active:opacity-50">
+<span class="material-symbols-outlined">power_settings_new</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] z-40 bg-surface-container-lowest border-r border-outline-variant flex flex-col pt-[64px]">
+<div class="p-6 border-b border-outline-variant">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 border border-secondary-fixed-dim p-0.5">
+<img alt="ROOT_USER" class="w-full h-full grayscale brightness-150" data-alt="A pixelated, glitch-effect avatar of a cyberpunk security officer wearing a high-tech tactical visor. The color palette is dominated by glowing neon greens and deep blacks. The style is reminiscent of 1990s computer interface graphics with visible scanlines and digital artifacts, conveying a sense of high-level system authority and technical precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKzAaf_fRGSpVoQctM_FStIF-qKZIKOGX65cQ87v93znCliDBdgEhq822d6LXUix1f4Muc-thPocfc-6GkvNK_tV64HUZs-bgEApR5dQQSAONd5BbYo34l1nvVrIGC5buUBlMCUHpBMSGe5ZlqTveYVI-uxxdf9G-0fSpcLehGhRwTkxlhpuXs2XvSV00_KHmt3useI9cMJzzQ09PYjXMIY4xRyel1MMAYRlHi1L-yDPpm3XTyKZ-IigWASRBKQ1J5aPGlfBoSmCA"/>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-secondary-fixed leading-none">ROOT_USER</div>
+<div class="font-code-snippet text-[10px] text-on-surface-variant mt-1">LVL_7_CLEARANCE</div>
+</div>
+</div>
+<button class="w-full py-2 border border-secondary-fixed-dim text-secondary-fixed-dim font-code-snippet text-code-snippet hover:bg-secondary/20 transition-all duration-100 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add_box</span> NEW_ENTRY
+                </button>
+</div>
+<nav class="flex-1 py-4">
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">inventory_2</span> Products
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">category</span> Categories
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">groups</span> Clients
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">payments</span> Sales
+                </a>
+<a class="bg-secondary-container text-on-secondary-container border-l-4 border-secondary-fixed-dim px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span> Reports
+                </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed transition-all duration-100 hover:translate-x-1" href="#">
+<span class="material-symbols-outlined">settings</span> Configuration
+                </a>
+</nav>
+<div class="p-4 border-t border-outline-variant font-code-snippet text-[10px] text-outline">
+                SYS_CLK: <span class="text-secondary-fixed-dim">2024.05.21_23:14:02_UTC</span>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] flex-1 p-6">
+<div class="max-w-[1440px] mx-auto">
+<!-- Breadcrumbs & Status -->
+<div class="flex justify-between items-center mb-6 border-b border-outline-variant pb-4">
+<div class="flex items-center gap-2 font-code-snippet text-code-snippet">
+<span class="text-outline">SYSTEM/</span>
+<span class="text-outline">REPORTS/</span>
+<span class="text-primary-container">ANALYTICS_DASHBOARD</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-secondary-fixed-dim"></span>
+<span class="font-code-snippet text-label-sm text-secondary-fixed-dim uppercase">[ STABLE_CONNECTION ]</span>
+</div>
+<button class="bg-surface-container border border-outline-variant px-4 py-1 text-label-sm font-code-snippet text-on-surface hover:bg-primary/10 transition-colors">
+                            DOWNLOAD_LOGS.EXE
+                        </button>
+</div>
+</div>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+<!-- KPI 1 -->
+<div class="bg-surface-container border border-outline-variant p-4 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-snippet text-label-sm text-outline">NET_REVENUE</span>
+<span class="material-symbols-outlined text-primary-container">trending_up</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary-fixed-dim">₮ 42,901.40</div>
+<div class="font-code-snippet text-label-sm text-secondary-fixed-dim mt-2 flex items-center gap-1">
+                            +12.4% <span class="text-[10px]">VS_PREV_CYCLE</span>
+</div>
+<div class="absolute bottom-0 right-0 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl">payments</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container border border-outline-variant p-4 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-snippet text-label-sm text-outline">NODES_ACTIVE</span>
+<span class="material-symbols-outlined text-secondary-fixed-dim">sensors</span>
+</div>
+<div class="font-headline-md text-headline-md text-secondary-fixed-dim">1,842</div>
+<div class="font-code-snippet text-label-sm text-secondary-fixed-dim mt-2">
+                            [██████████░░] 84%
+                        </div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container border border-outline-variant p-4 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-snippet text-label-sm text-outline">CONVERSION_RATE</span>
+<span class="material-symbols-outlined text-primary-container">monitoring</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface">3.82%</div>
+<div class="font-code-snippet text-label-sm text-error mt-2 flex items-center gap-1">
+                            -0.4% <span class="text-[10px] text-outline">MARGINAL_DROP</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container border border-outline-variant p-4 relative overflow-hidden group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code-snippet text-label-sm text-outline">THROUGHPUT</span>
+<span class="material-symbols-outlined text-primary-container">speed</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface">1.2 GB/S</div>
+<div class="font-code-snippet text-label-sm text-primary-container mt-2">
+                            STATUS: NOMINAL
+                        </div>
+</div>
+</div>
+<!-- Main Data Visuals -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+<!-- Sales Over Time (Chart Simulation) -->
+<div class="lg:col-span-2 bg-surface-container-low border border-outline-variant overflow-hidden flex flex-col">
+<div class="border-b border-outline-variant px-4 py-2 flex justify-between items-center bg-surface-container">
+<h3 class="font-code-snippet text-body-md font-bold text-primary-container flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">show_chart</span> SALES_OVER_TIME.DAT
+                            </h3>
+<div class="flex gap-2">
+<span class="text-label-sm font-code-snippet border border-outline-variant px-2 py-0.5 bg-background">D</span>
+<span class="text-label-sm font-code-snippet border border-primary-container text-primary-container px-2 py-0.5 bg-primary/10">W</span>
+<span class="text-label-sm font-code-snippet border border-outline-variant px-2 py-0.5 bg-background">M</span>
+</div>
+</div>
+<div class="flex-1 p-6 flex flex-col justify-end min-h-[300px] relative">
+<!-- Chart Grid Lines -->
+<div class="absolute inset-0 p-6 flex flex-col justify-between pointer-events-none opacity-20">
+<div class="border-t border-outline w-full"></div>
+<div class="border-t border-outline w-full"></div>
+<div class="border-t border-outline w-full"></div>
+<div class="border-t border-outline w-full"></div>
+<div class="border-t border-outline w-full"></div>
+</div>
+<!-- Bar Visuals (Simulated) -->
+<div class="flex items-end justify-between h-48 gap-2 relative z-10">
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[20%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[45%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[35%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[70%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[85%] relative">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-bright border border-primary-container px-2 py-1 text-[10px] whitespace-nowrap">
+                                        PEAK_VAL: 842.11
+                                    </div>
+</div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[60%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[95%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[50%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[40%]"></div>
+<div class="bg-primary/20 border-t-2 border-primary-container w-full h-[30%]"></div>
+</div>
+<div class="flex justify-between mt-4 font-code-snippet text-[10px] text-outline">
+<span>MON_01</span>
+<span>TUE_02</span>
+<span>WED_03</span>
+<span>THU_04</span>
+<span>FRI_05</span>
+<span>SAT_06</span>
+<span>SUN_07</span>
+<span>MON_08</span>
+<span>TUE_09</span>
+<span>WED_10</span>
+</div>
+</div>
+</div>
+<!-- Top Selling Products -->
+<div class="bg-surface-container-low border border-outline-variant flex flex-col">
+<div class="border-b border-outline-variant px-4 py-2 bg-surface-container">
+<h3 class="font-code-snippet text-body-md font-bold text-secondary-fixed-dim flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">leaderboard</span> TOP_ASSETS.CFG
+                            </h3>
+</div>
+<div class="p-4 space-y-4">
+<div class="space-y-1">
+<div class="flex justify-between font-code-snippet text-label-sm">
+<span class="text-on-surface">CRYPTO_KEY_GEN_V4</span>
+<span class="text-secondary-fixed-dim">842_UNIT</span>
+</div>
+<div class="w-full bg-surface h-2 border border-outline-variant">
+<div class="bg-secondary-container h-full w-[85%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-code-snippet text-label-sm">
+<span class="text-on-surface">NEURAL_LINK_MODULE</span>
+<span class="text-secondary-fixed-dim">612_UNIT</span>
+</div>
+<div class="w-full bg-surface h-2 border border-outline-variant">
+<div class="bg-secondary-container h-full w-[65%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-code-snippet text-label-sm">
+<span class="text-on-surface">PROXY_BYPASS_SHELL</span>
+<span class="text-secondary-fixed-dim">431_UNIT</span>
+</div>
+<div class="w-full bg-surface h-2 border border-outline-variant">
+<div class="bg-secondary-container h-full w-[45%]"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-code-snippet text-label-sm">
+<span class="text-on-surface">ENCRYPTED_SSD_2TB</span>
+<span class="text-secondary-fixed-dim">211_UNIT</span>
+</div>
+<div class="w-full bg-surface h-2 border border-outline-variant">
+<div class="bg-secondary-container h-full w-[25%]"></div>
+</div>
+</div>
+<div class="pt-4 mt-4 border-t border-outline-variant">
+<button class="w-full text-center font-code-snippet text-label-sm text-outline hover:text-primary-container uppercase transition-colors">
+                                    VIEW_ALL_INVENTORY.BIN
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Technical Data Table -->
+<div class="bg-surface-container border border-outline-variant">
+<div class="px-4 py-2 border-b border-outline-variant bg-surface-container-high flex justify-between items-center">
+<h4 class="font-code-snippet text-body-md text-on-surface font-bold">RAW_TRANSACTION_STREAM</h4>
+<div class="flex items-center gap-2">
+<span class="text-[10px] text-secondary-fixed-dim animate-pulse">● LIVE_STREAM</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-code-snippet text-code-snippet">
+<thead class="bg-surface-container-low text-outline border-b border-outline-variant">
+<tr>
+<th class="px-4 py-2 border-r border-outline-variant">TX_ID</th>
+<th class="px-4 py-2 border-r border-outline-variant">TIMESTAMP</th>
+<th class="px-4 py-2 border-r border-outline-variant">CLIENT_ADDR</th>
+<th class="px-4 py-2 border-r border-outline-variant">STATUS</th>
+<th class="px-4 py-2">VALUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-outline-variant hover:bg-primary/5 group">
+<td class="px-4 py-2 border-r border-outline-variant text-primary-fixed-dim">#AF-9021</td>
+<td class="px-4 py-2 border-r border-outline-variant">12:04:11</td>
+<td class="px-4 py-2 border-r border-outline-variant font-mono">0x4f1...9a2</td>
+<td class="px-4 py-2 border-r border-outline-variant">
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-2 py-0.5 border border-secondary-fixed-dim/30">[ COMPLETED ]</span>
+</td>
+<td class="px-4 py-2 text-right">₮ 1,420.00</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-primary/5 group">
+<td class="px-4 py-2 border-r border-outline-variant text-primary-fixed-dim">#AF-9022</td>
+<td class="px-4 py-2 border-r border-outline-variant">12:04:45</td>
+<td class="px-4 py-2 border-r border-outline-variant font-mono">0x22b...11c</td>
+<td class="px-4 py-2 border-r border-outline-variant">
+<span class="bg-primary-container/20 text-primary-container px-2 py-0.5 border border-primary-container/30">[ PROCESSING ]</span>
+</td>
+<td class="px-4 py-2 text-right">₮ 892.44</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-primary/5 group">
+<td class="px-4 py-2 border-r border-outline-variant text-primary-fixed-dim">#AF-9023</td>
+<td class="px-4 py-2 border-r border-outline-variant">12:05:02</td>
+<td class="px-4 py-2 border-r border-outline-variant font-mono">0x99a...f41</td>
+<td class="px-4 py-2 border-r border-outline-variant">
+<span class="bg-error-container/20 text-error px-2 py-0.5 border border-error/30">[ REJECTED ]</span>
+</td>
+<td class="px-4 py-2 text-right">₮ 12.00</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-primary/5 group">
+<td class="px-4 py-2 border-r border-outline-variant text-primary-fixed-dim">#AF-9024</td>
+<td class="px-4 py-2 border-r border-outline-variant">12:05:30</td>
+<td class="px-4 py-2 border-r border-outline-variant font-mono">0x111...bc2</td>
+<td class="px-4 py-2 border-r border-outline-variant">
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-2 py-0.5 border border-secondary-fixed-dim/30">[ COMPLETED ]</span>
+</td>
+<td class="px-4 py-2 text-right">₮ 3,110.15</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- System Logs / Asymmetric Footer Node -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest border border-outline-variant p-4 font-code-snippet">
+<div class="text-primary-container mb-2 text-label-sm">&gt;&gt; SYSTEM_EVENT_LOG</div>
+<div class="h-32 overflow-y-auto text-[11px] space-y-1 text-on-surface-variant">
+<p><span class="text-outline">[23:14:02]</span> AUTH_SUCCESS: ROOT_USER authenticated via Neural_Handshake</p>
+<p><span class="text-outline">[23:14:05]</span> DATA_QUERY: Executed Reports.FetchAnalytics(cycle='WEEK')</p>
+<p><span class="text-outline">[23:14:10]</span> NETWORK: Latency drop detected in Sector 7G (14ms -&gt; 82ms)</p>
+<p><span class="text-outline">[23:14:12]</span> CACHE_CLEAR: 124MB of temporary buffer purged</p>
+<p><span class="text-outline">[23:14:15]</span> SECURITY: Minor handshake collision resolved for Node_842</p>
+<p><span class="text-outline">[23:14:18]</span> SYNC_COMPLETE: Cloud mirrors synchronized successfully</p>
+</div>
+</div>
+<div class="bg-primary/5 border border-primary-container p-6 flex items-center justify-between">
+<div>
+<h5 class="text-primary-container font-headline-sm mb-1">DATA_DENSITY: HIGH</h5>
+<p class="text-on-surface-variant font-code-snippet text-code-snippet">Neural optimization active. Global performance increased by 4.2% in last 24h cycle.</p>
+</div>
+<span class="material-symbols-outlined text-4xl text-primary-container opacity-50">memory</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

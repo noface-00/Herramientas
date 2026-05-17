@@ -1,11 +1,20 @@
 const express = require("express")
 require("dotenv").config()
+const cors = require("cors")
 const swaggerUi = require("swagger-ui-express")
 const { errorHandler } = require("./middleware/error-handler")
 const { sequelize } = require("./models")
 const swaggerSpec = require("./config/swagger")
 
 const app = express()
+
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}))
+
 app.use(express.json())
 
 const PORT = process.env.PORT || 3000

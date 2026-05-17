@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Typography */
+  --font-family: 'JetBrains Mono', monospace;
+  --font-size-headline-lg: 32px;
+  --font-size-headline-md: 24px;
+  --font-size-body-lg: 16px;
+  --font-size-body-md: 14px;
+  --font-size-label-sm: 12px;
+  --font-size-code-snippet: 13px;
+
+  /* Spacing */
+  --spacing-unit: 4px;
+  --spacing-gutter: 16px;
+  --spacing-margin: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--surface);
+  color: var(--on-surface);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+/* Utility Classes */
+
+.ascii-border {
+  position: relative;
+  border: 1px solid var(--outline-variant);
+}
+
+.glitch-hover:hover {
+  box-shadow: 0 0 10px rgba(0, 219, 231, 0.4);
+  background-color: rgba(0, 219, 231, 0.05);
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: var(--primary-fixed-dim);
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.headline-lg {
+  font-size: var(--font-size-headline-lg);
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+}
+
+.headline-md {
+  font-size: var(--font-size-headline-md);
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.01em;
+}
+
+.body-lg {
+  font-size: var(--font-size-body-lg);
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+.body-md {
+  font-size: var(--font-size-body-md);
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.01em;
+}
+
+.label-sm {
+  font-size: var(--font-size-label-sm);
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+}
+
+.code-snippet {
+  font-size: var(--font-size-code-snippet);
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+
+/* Text Colors */
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-primary-fixed-dim {
+  color: var(--primary-fixed-dim);
+}
+
+.text-secondary-fixed {
+  color: var(--secondary-fixed);
+}
+
+.text-on-surface-variant {
+  color: var(--on-surface-variant);
+}
+
+.text-error {
+  color: var(--error);
+}
+
+.text-outline {
+  color: var(--outline);
+}
+
+/* Background Colors */
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-surface-container-low {
+  background-color: var(--surface-container-low);
+}
+
+.bg-surface-container {
+  background-color: var(--surface-container);
+}
+
+.bg-surface-container-lowest {
+  background-color: var(--surface-container-lowest);
+}
+
+.bg-primary-container {
+  background-color: var(--primary-container);
+}
+
+.bg-secondary-container {
+  background-color: var(--secondary-container);
+}
+
+/* Border Colors */
+
+.border-primary-fixed-dim {
+  border-color: var(--primary-fixed-dim);
+}
+
+.border-outline-variant {
+  border-color: var(--outline-variant);
+}
+
+.border-secondary-fixed-dim {
+  border-color: var(--secondary-fixed-dim);
+}
+
+/* Glow Effects */
+
+.glow-primary {
+  text-shadow: 0 0 10px rgba(0, 219, 231, 0.6);
+}
+
+.glow-secondary {
+  text-shadow: 0 0 10px rgba(42, 229, 0, 0.6);
+}
+
+.box-glow-primary {
+  box-shadow: 0 0 10px rgba(0, 219, 231, 0.4);
+}
+
+.box-glow-secondary {
+  box-shadow: 0 0 10px rgba(42, 229, 0, 0.4);
+}
+
+/* Animations */
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+}
+
+.flicker {
+  animation: flicker 0.1s;
+}
+
+@keyframes scan-lines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 4px; }
+}
+
+.scan-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}

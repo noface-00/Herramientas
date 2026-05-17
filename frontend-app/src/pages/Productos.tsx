@@ -41,8 +41,9 @@ export function Productos() {
         const response = await fetch('/api/productos', {
           headers: { Authorization: `Bearer ${accessToken}` }
         })
+        if (!response.ok) throw new Error("Error fetching productos");
         const data = await response.json()
-        setProductos(data)
+        if (Array.isArray(data)) setProductos(data)
       } catch (error) {
         console.error('Error al cargar productos:', error)
       }
@@ -53,8 +54,9 @@ export function Productos() {
         const response = await fetch('/api/categorias', {
           headers: { Authorization: `Bearer ${accessToken}` }
         })
+        if (!response.ok) throw new Error("Error fetching categorias");
         const data = await response.json()
-        setCategorias(data)
+        if (Array.isArray(data)) setCategorias(data)
       } catch (error) {
         console.error('Error al cargar categorías:', error)
       }
@@ -75,7 +77,14 @@ export function Productos() {
         : '/api/productos'
 
       const method = editando ? 'PUT' : 'POST'
-      const data = { ...formulario, ...productoParaEditar }
+
+      const payload = {
+        nombre: formulario.nombre,
+        descripcion: formulario.descripcion,
+        precio: parseFloat(formulario.precio),
+        stock: parseInt(formulario.stock) || 0,
+        categoriaId: formulario.categoriaId ? parseInt(formulario.categoriaId) : null
+      }
 
       const response = await fetch(url, {
         method,
@@ -83,7 +92,7 @@ export function Productos() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(payload)
       })
 
       if (!response.ok) throw new Error('Error al guardar')
@@ -237,14 +246,22 @@ export function Productos() {
             disabled={editando}
           />
 
-          <NeonInput
-            label="Categoría"
-            value={formulario.categoriaId}
-            onChange={(e) => {
-              setFormulario({ ...formulario, categoriaId: e.target.value })
-            }}
-            disabled={editando}
-          />
+          <div>
+            <label className="label-sm text-outline uppercase block mb-2">Categoría</label>
+            <select
+              value={formulario.categoriaId}
+              onChange={(e) => {
+                setFormulario({ ...formulario, categoriaId: e.target.value })
+              }}
+              disabled={editando}
+              className="w-full bg-surface-container-low border border-outline-variant rounded-none px-4 py-2 text-code-snippet text-on-surface focus:ring-0 focus:border-primary-fixed-dim focus:outline-none transition-colors disabled:opacity-50"
+            >
+              <option value="">Seleccione una categoría</option>
+              {categorias.map(cat => (
+                <option key={cat.id} value={cat.id}>{cat.nombre}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <NeonButton

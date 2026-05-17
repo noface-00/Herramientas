@@ -19,8 +19,11 @@ export function Categorias() {
       const response = await fetch("/api/categorias", {
         headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
       })
+      if (!response.ok) throw new Error("Error en peticion");
       const data = await response.json()
-      setCategorias(data)
+      if (Array.isArray(data)) {
+        setCategorias(data)
+      }
     } catch (error) {
       setMensaje("Error al cargar categorías")
     }
@@ -40,6 +43,7 @@ export function Categorias() {
         },
         body: JSON.stringify({ nombre: nuevaCategoria.nombre, descripcion: nuevaCategoria.descripcion })
       })
+      if (!response.ok) throw new Error("Acceso denegado o error del servidor")
       const data = await response.json()
       setCategorias([...categorias, data])
       setNuevaCategoria({ nombre: "", descripcion: "" })
@@ -52,7 +56,7 @@ export function Categorias() {
   const handleEditar = (categoria: Categoria) => {
     setCategoriaParaEditar(categoria)
     setEditando(true)
-    setNuevaCategoria({ nombre: categoria.nombre, descripcion: categoria.descripcion })
+    setNuevaCategoria({ nombre: categoria.nombre || "", descripcion: categoria.descripcion || "" })
   }
 
   const handleGuardar = async () => {
@@ -66,6 +70,7 @@ export function Categorias() {
         },
         body: JSON.stringify({ nombre: nuevaCategoria.nombre, descripcion: nuevaCategoria.descripcion })
       })
+      if (!response.ok) throw new Error("Acceso denegado o error del servidor")
       const data = await response.json()
       setCategorias(categorias.map(c => c.id === categoriaParaEditar.id ? data : c))
       setEditando(false)
@@ -77,10 +82,11 @@ export function Categorias() {
 
   const handleEliminar = async (id: number) => {
     try {
-      await fetch(`/api/categorias/${id}`, {
+      const response = await fetch(`/api/categorias/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
       })
+      if (!response.ok) throw new Error("Acceso denegado o error del servidor")
       setCategorias(categorias.filter(c => c.id !== id))
       setMensaje("Categoría eliminada")
     } catch (error) {

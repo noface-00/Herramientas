@@ -13,6 +13,10 @@ export function Dashboard() {
       const response = await fetch("/api/dashboard", {
         headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
       })
+      if (!response.ok) {
+        console.log("Endpoint de dashboard no disponible o error de auth");
+        return;
+      }
       const data = await response.json()
       setEstadisticas(data)
     } catch (error) {

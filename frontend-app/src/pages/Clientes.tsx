@@ -3,14 +3,19 @@ import { NeonCard, NeonButton, NeonHeader, NeonInput, NeonStatusTag } from "../c
 
 interface Cliente {
   id: number
-  nombre: string
+  identificacion: string
+  nombres: string
+  apellidos: string
   email: string
-  rol: string
+  telefono: string
+  direccion: string
 }
+
+const estadoInicial = { identificacion: "", nombres: "", apellidos: "", email: "", telefono: "", direccion: "" }
 
 export function Clientes() {
   const [clientes, setClientes] = useState<Cliente[]>([])
-  const [nuevoCliente, setNuevoCliente] = useState({ nombre: "", email: "", rol: "cliente" })
+  const [nuevoCliente, setNuevoCliente] = useState(estadoInicial)
   const [editando, setEditando] = useState(false)
   const [clienteParaEditar, setClienteParaEditar] = useState<Cliente | null>(null)
   const [mensaje, setMensaje] = useState("")
@@ -20,8 +25,11 @@ export function Clientes() {
       const response = await fetch("/api/clientes", {
         headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
       })
+      if (!response.ok) throw new Error("Error en petición");
       const data = await response.json()
-      setClientes(data)
+      if (Array.isArray(data)) {
+        setClientes(data)
+      }
     } catch (error) {
       setMensaje("Error al cargar clientes")
     }
@@ -39,21 +47,29 @@ export function Clientes() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         },
-        body: JSON.stringify({ nombre: nuevoCliente.nombre, email: nuevoCliente.email, rol: nuevoCliente.rol })
+        body: JSON.stringify(nuevoCliente)
       })
+      if (!response.ok) throw new Error("Error al procesar solicitud");
       const data = await response.json()
       setClientes([...clientes, data])
-      setNuevoCliente({ nombre: "", email: "", rol: "cliente" })
-      setMensaje(`Cliente agregado: ${data.nombre}`)
+      setNuevoCliente(estadoInicial)
+      setMensaje(`Cliente agregado: ${data.nombres}`)
     } catch (error) {
-      setMensaje("Error al agregar cliente")
+      setMensaje("Error al agregar cliente. Revisa los datos.")
     }
   }
 
   const handleEditar = (cliente: Cliente) => {
     setClienteParaEditar(cliente)
     setEditando(true)
-    setNuevoCliente({ nombre: cliente.nombre, email: cliente.email, rol: cliente.rol })
+    setNuevoCliente({ 
+      identificacion: cliente.identificacion || "", 
+      nombres: cliente.nombres || "", 
+      apellidos: cliente.apellidos || "", 
+      email: cliente.email || "", 
+      telefono: cliente.telefono || "", 
+      direccion: cliente.direccion || "" 
+    })
   }
 
   const handleGuardar = async () => {
@@ -65,23 +81,25 @@ export function Clientes() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         },
-        body: JSON.stringify({ nombre: nuevoCliente.nombre, email: nuevoCliente.email, rol: nuevoCliente.rol })
+        body: JSON.stringify(nuevoCliente)
       })
+      if (!response.ok) throw new Error("Error al procesar solicitud");
       const data = await response.json()
       setClientes(clientes.map(c => c.id === clienteParaEditar.id ? data : c))
       setEditando(false)
-      setMensaje(`Cliente actualizado: ${data.nombre}`)
+      setMensaje(`Cliente actualizado: ${data.nombres}`)
     } catch (error) {
-      setMensaje("Error al actualizar cliente")
+      setMensaje("Error al actualizar cliente. Revisa los datos.")
     }
   }
 
   const handleEliminar = async (id: number) => {
     try {
-      await fetch(`/api/clientes/${id}`, {
+      const response = await fetch(`/api/clientes/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` }
       })
+      if (!response.ok) throw new Error("Error al procesar solicitud");
       setClientes(clientes.filter(c => c.id !== id))
       setMensaje("Cliente eliminado")
     } catch (error) {
@@ -89,15 +107,18 @@ export function Clientes() {
     }
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setNuevoCliente({ ...nuevoCliente, [name]: value })
+  }
+
   return (
     <div className="bg-surface text-on-surface">
-      {/* Header */}
       <NeonHeader
         title="Client_Database"
         subtitle="CUSTOMER_REGISTRY_v2.0 // ACTIVE_NODES: MONITORED"
       />
 
-      {/* Message Alert */}
       {mensaje && (
         <div className="ascii-border border-secondary-fixed-dim bg-surface-container-low p-3 mb-6">
           <p className="code-snippet text-[11px] text-secondary-fixed">
@@ -106,57 +127,78 @@ export function Clientes() {
         </div>
       )}
 
-      {/* Form Card */}
       <NeonCard title={editando ? "0x01_EDIT_CLIENT" : "0x01_NEW_CLIENT"} variant="primary" className="mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <NeonInput
-            label="Full_Name"
-            placeholder="ENTER_NAME..."
-            value={nuevoCliente.nombre}
-            onChange={e => setNuevoCliente({ ...nuevoCliente, nombre: e.target.value })}
+            label="Identificación"
+            name="identificacion"
+            placeholder="DNI/RUC..."
+            value={nuevoCliente.identificacion}
+            onChange={handleChange}
           />
           <NeonInput
-            label="Email_Address"
+            label="Nombres"
+            name="nombres"
+            placeholder="Nombres..."
+            value={nuevoCliente.nombres}
+            onChange={handleChange}
+          />
+          <NeonInput
+            label="Apellidos"
+            name="apellidos"
+            placeholder="Apellidos..."
+            value={nuevoCliente.apellidos}
+            onChange={handleChange}
+          />
+          <NeonInput
+            label="Email"
+            name="email"
             type="email"
             placeholder="USER@DOMAIN..."
             value={nuevoCliente.email}
-            onChange={e => setNuevoCliente({ ...nuevoCliente, email: e.target.value })}
+            onChange={handleChange}
           />
-          <div>
-            <label className="label-sm text-outline uppercase block mb-2">Access_Level</label>
-            <select
-              value={nuevoCliente.rol}
-              onChange={e => setNuevoCliente({ ...nuevoCliente, rol: e.target.value })}
-              className="w-full bg-surface-container-low border border-outline-variant rounded-none px-4 py-2 text-code-snippet text-on-surface focus:ring-0 focus:border-primary-fixed-dim focus:outline-none transition-colors"
-            >
-              <option value="cliente">CLIENTE</option>
-              <option value="admin">ADMIN</option>
-            </select>
-          </div>
+          <NeonInput
+            label="Teléfono"
+            name="telefono"
+            placeholder="Teléfono..."
+            value={nuevoCliente.telefono}
+            onChange={handleChange}
+          />
+          <NeonInput
+            label="Dirección"
+            name="direccion"
+            placeholder="Dirección..."
+            value={nuevoCliente.direccion}
+            onChange={handleChange}
+          />
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-4">
           <NeonButton variant="primary" onClick={editando ? handleGuardar : handleAgregar}>
             {editando ? "UPDATE_ENTRY" : "CREATE_CLIENT"}
           </NeonButton>
           {editando && (
-            <NeonButton variant="danger" onClick={() => setEditando(false)}>
+            <NeonButton variant="danger" onClick={() => {
+              setEditando(false)
+              setNuevoCliente(estadoInicial)
+            }}>
               CANCEL_EDIT
             </NeonButton>
           )}
         </div>
       </NeonCard>
 
-      {/* Clients Table */}
       <NeonCard title="0x02_CLIENT_DATABASE" variant="success">
         <div className="overflow-x-auto">
           <table className="w-full text-left code-snippet text-[12px]">
             <thead>
               <tr className="border-b border-outline-variant bg-surface-container-lowest">
                 <th className="p-3 text-outline">ID</th>
-                <th className="p-3 text-outline">NAME</th>
+                <th className="p-3 text-outline">IDENTIFICACIÓN</th>
+                <th className="p-3 text-outline">NOMBRES</th>
                 <th className="p-3 text-outline">EMAIL</th>
-                <th className="p-3 text-outline text-center">ACCESS_LEVEL</th>
+                <th className="p-3 text-outline">TELÉFONO</th>
                 <th className="p-3 text-outline text-center">ACTIONS</th>
               </tr>
             </thead>
@@ -164,13 +206,10 @@ export function Clientes() {
               {clientes.map(cliente => (
                 <tr key={cliente.id} className="border-b border-outline-variant hover:bg-primary/5">
                   <td className="p-3 text-primary-fixed-dim">#{cliente.id}</td>
-                  <td className="p-3 text-on-surface font-bold">{cliente.nombre}</td>
+                  <td className="p-3 text-on-surface-variant font-bold">{cliente.identificacion}</td>
+                  <td className="p-3 text-on-surface font-bold">{cliente.nombres} {cliente.apellidos}</td>
                   <td className="p-3 text-on-surface-variant">{cliente.email}</td>
-                  <td className="p-3 text-center">
-                    <NeonStatusTag status={cliente.rol === "admin" ? "critical" : "verified"}>
-                      {cliente.rol.toUpperCase()}
-                    </NeonStatusTag>
-                  </td>
+                  <td className="p-3 text-on-surface-variant">{cliente.telefono}</td>
                   <td className="p-3 text-center flex gap-2 justify-center">
                     <NeonButton variant="primary" size="sm" onClick={() => handleEditar(cliente)}>
                       EDIT

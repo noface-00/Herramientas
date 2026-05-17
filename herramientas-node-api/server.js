@@ -43,6 +43,7 @@ app.use("/api/categorias", require("./routes/categoria.routes"))
 app.use("/api/clientes", require("./routes/cliente.routes"))
 app.use("/api/productos", require("./routes/producto.routes"))
 app.use("/api/ventas", require("./routes/venta.routes"))
+app.use("/api/dashboard", require("./routes/dashboard.routes"))
 
 app.use(errorHandler)
 

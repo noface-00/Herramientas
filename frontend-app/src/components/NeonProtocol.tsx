@@ -176,6 +176,7 @@ export const NeonInput: React.FC<NeonInputProps> = ({
         <input
           className={`w-full bg-surface-container-low border border-outline-variant rounded-none pl-6 pr-4 py-2 text-code-snippet text-on-surface focus:ring-0 focus:border-primary-fixed-dim focus:outline-none transition-colors ${className}`}
           {...props}
+          value={props.value !== undefined ? props.value : ""}
         />
       </div>
     </div>

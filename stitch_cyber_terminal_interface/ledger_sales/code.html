@@ -1,0 +1,357 @@
+<html class="dark"><head>
+<meta charset="utf-8"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .terminal-grid {
+            background-image: linear-gradient(var(--outline-variant) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--outline-variant) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container": "#201f1f",
+                        "secondary-fixed-dim": "#2ae500",
+                        "on-background": "#e5e2e1",
+                        "primary-fixed": "#74f5ff",
+                        "on-surface-variant": "#b9cacb",
+                        "inverse-primary": "#00696f",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e5e2e1",
+                        "surface": "#131313",
+                        "outline": "#849495",
+                        "on-tertiary-container": "#c0003e",
+                        "tertiary-fixed": "#ffdadb",
+                        "on-secondary": "#053900",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-bright": "#3a3939",
+                        "surface-container-highest": "#353534",
+                        "on-surface": "#e5e2e1",
+                        "background": "#131313",
+                        "on-tertiary": "#67001d",
+                        "secondary-fixed": "#79ff5b",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#fff5f5",
+                        "secondary": "#d7ffc5",
+                        "primary": "#e1fdff",
+                        "on-tertiary-fixed-variant": "#91002d",
+                        "on-secondary-fixed-variant": "#095300",
+                        "on-primary-fixed-variant": "#004f54",
+                        "surface-variant": "#353534",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-container": "#00f2ff",
+                        "surface-tint": "#00dbe7",
+                        "on-primary": "#00363a",
+                        "on-secondary-fixed": "#022100",
+                        "secondary-container": "#2ff801",
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#006a71",
+                        "outline-variant": "#3a494b",
+                        "inverse-on-surface": "#313030",
+                        "tertiary-fixed-dim": "#ffb2b8",
+                        "on-primary-fixed": "#002022",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "tertiary-container": "#ffcfd2",
+                        "on-tertiary-fixed": "#40000f",
+                        "primary-fixed-dim": "#00dbe7",
+                        "on-secondary-container": "#0f6d00"
+                    },
+                    "fontFamily": {
+                        "code-snippet": ["JetBrains Mono"],
+                        "body-lg": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-md": ["JetBrains Mono"],
+                        "headline-lg": ["JetBrains Mono"],
+                        "body-md": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "code-snippet": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface h-[64px] w-full sticky top-0 z-50 border-b border-outline-variant dark:border-outline-variant shadow-[0_0_10px_rgba(0,219,231,0.2)] flex justify-between items-center px-6 w-full">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md text-primary-container dark:text-primary-container tracking-tighter">NEON_PROTOCOL_V2.0</span>
+<span class="font-code-snippet text-code-snippet text-on-surface-variant opacity-50 px-2 py-1 border border-outline-variant">STATUS: ENCRYPTED</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container-high border border-outline-variant">
+<span class="material-symbols-outlined text-primary-container text-[18px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-code-snippet font-code-snippet w-48 text-primary-fixed-dim placeholder:text-outline-variant" placeholder="QUERY_DB..." type="text"/>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined text-primary-fixed-dim dark:text-primary-fixed-dim hover:bg-primary/10 transition-all duration-100 p-2 active:opacity-50">notifications</button>
+<button class="material-symbols-outlined text-primary-fixed-dim dark:text-primary-fixed-dim hover:bg-primary/10 transition-all duration-100 p-2 active:opacity-50">terminal</button>
+<button class="material-symbols-outlined text-primary-fixed-dim dark:text-primary-fixed-dim hover:bg-primary/10 transition-all duration-100 p-2 active:opacity-50">power_settings_new</button>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-[260px] z-40 bg-surface-container-lowest dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline-variant flex flex-col pt-[64px]">
+<div class="p-6 border-b border-outline-variant mb-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 border border-secondary-fixed-dim p-0.5">
+<img alt="Admin" class="w-full h-full grayscale brightness-150" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwxdyfRUpMUEwmsNv6-ajPnnmvkXpI_W9YwkA50_qbKYOu2nzkrmlBNEIYtVuEJkkrOmzX8uqKsbCZnklHNHAibriCwycmDJoGWkFu1-R3KAVeqBzbcB_PhwiN1zSSGSjRR8Ry3iIk3s4HkV1eXGJqznM1LGEcUl-OCupzpyUqNpbE0jqT0eMTSfhUm2xwCZGhQSdNCtNuUFFkm5oW05xktO24Q0rCFMmz2-dcP6jOrZaPQavVpSJkN2dtDPZN6nPFU4UI1xGAphk"/>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-secondary-fixed">ROOT_USER</div>
+<div class="font-code-snippet text-code-snippet text-secondary-fixed-dim opacity-70">Level 7 Clearance</div>
+</div>
+</div>
+</div>
+<nav class="flex-grow">
+<ul class="space-y-1 px-2">
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed hover:translate-x-1 transition-all duration-150" href="#"><span class="material-symbols-outlined">dashboard</span>Dashboard</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed hover:translate-x-1 transition-all duration-150" href="#"><span class="material-symbols-outlined">inventory_2</span>Products</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed hover:translate-x-1 transition-all duration-150" href="#"><span class="material-symbols-outlined">category</span>Categories</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed hover:translate-x-1 transition-all duration-150" href="#"><span class="material-symbols-outlined">groups</span>Clients</a></li>
+<li><a class="bg-secondary-container text-on-secondary-container border-l-4 border-secondary-fixed-dim px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet active:opacity-50" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>Sales</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed hover:translate-x-1 transition-all duration-150" href="#"><span class="material-symbols-outlined">analytics</span>Reports</a></li>
+<li><a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 font-code-snippet text-code-snippet hover:bg-secondary/20 hover:text-secondary-fixed hover:translate-x-1 transition-all duration-150" href="#"><span class="material-symbols-outlined">settings</span>Configuration</a></li>
+</ul>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<button class="w-full border border-secondary-fixed-dim text-secondary-fixed-dim py-3 font-code-snippet text-code-snippet flex items-center justify-center gap-2 hover:bg-secondary-fixed-dim hover:text-on-secondary transition-all">
+<span class="material-symbols-outlined">add</span> NEW_ENTRY
+                </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-[260px] flex-grow p-8 bg-surface">
+<!-- Breadcrumbs / System Path -->
+<div class="mb-6 font-code-snippet text-code-snippet text-outline flex items-center gap-2">
+<span>SYSTEM</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>LEDGER</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary-fixed-dim">SALES_TRANSACTIONS</span>
+<span class="ml-2 w-2 h-4 bg-primary-fixed-dim cursor-blink inline-block align-middle"></span>
+</div>
+<!-- Terminal Window Container -->
+<div class="border border-outline-variant bg-surface-container-lowest shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+<!-- Terminal Header -->
+<div class="bg-surface-container-high border-b border-outline-variant px-4 py-2 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="font-code-snippet text-code-snippet text-on-surface">root@neon_ledger:~/transactions</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-error/40"></div>
+<div class="w-2 h-2 rounded-full bg-secondary-fixed-dim/40"></div>
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim/40"></div>
+</div>
+</div>
+<div class="flex gap-4 font-code-snippet text-code-snippet text-outline">
+<span>[X]</span>
+<span>[_]</span>
+<span>[^]</span>
+</div>
+</div>
+<!-- Transaction Controls -->
+<div class="p-6 border-b border-outline-variant flex flex-wrap gap-4 items-center justify-between">
+<div class="flex gap-4">
+<div class="border border-outline-variant px-3 py-2 flex items-center gap-2 bg-surface-container">
+<span class="font-code-snippet text-code-snippet text-outline">FILTER_BY:</span>
+<select class="bg-transparent border-none focus:ring-0 font-code-snippet text-code-snippet text-primary-fixed-dim p-0 pr-8">
+<option>ALL_RECORDS</option>
+<option>VERIFIED_ONLY</option>
+<option>PENDING_ONLY</option>
+<option>VOID_ONLY</option>
+</select>
+</div>
+<div class="border border-outline-variant px-3 py-2 flex items-center gap-2 bg-surface-container">
+<span class="font-code-snippet text-code-snippet text-outline">SORT:</span>
+<select class="bg-transparent border-none focus:ring-0 font-code-snippet text-code-snippet text-primary-fixed-dim p-0 pr-8">
+<option>LATEST_FIRST</option>
+<option>VALUE_DESC</option>
+<option>VALUE_ASC</option>
+</select>
+</div>
+</div>
+<div class="font-code-snippet text-code-snippet flex items-center gap-4">
+<span class="text-outline">RECORDS: 1,429</span>
+<span class="text-secondary-fixed-dim px-2 py-1 bg-secondary-container/10 border border-secondary-fixed-dim/30">SYNC_STABLE [OK]</span>
+</div>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-surface-container text-left border-b border-outline-variant">
+<th class="p-4 font-code-snippet text-code-snippet text-outline-variant uppercase tracking-wider border-r border-outline-variant w-12">#</th>
+<th class="p-4 font-code-snippet text-code-snippet text-outline-variant uppercase tracking-wider border-r border-outline-variant">Timestamp</th>
+<th class="p-4 font-code-snippet text-code-snippet text-outline-variant uppercase tracking-wider border-r border-outline-variant">Client_Handle</th>
+<th class="p-4 font-code-snippet text-code-snippet text-outline-variant uppercase tracking-wider border-r border-outline-variant text-right">Items</th>
+<th class="p-4 font-code-snippet text-code-snippet text-outline-variant uppercase tracking-wider border-r border-outline-variant text-right">Value_¤</th>
+<th class="p-4 font-code-snippet text-code-snippet text-outline-variant uppercase tracking-wider">Status</th>
+</tr>
+</thead>
+<tbody class="font-code-snippet text-code-snippet">
+<!-- Verified Row -->
+<tr class="border-b border-outline-variant hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant text-outline group-hover:text-primary-fixed-dim">001</td>
+<td class="p-4 border-r border-outline-variant text-on-surface">2077.05.21_14:32:01</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="text-primary-container">@cipher_runner_99</span>
+</td>
+<td class="p-4 border-r border-outline-variant text-right">04</td>
+<td class="p-4 border-r border-outline-variant text-right font-bold text-secondary-fixed">2,450.00</td>
+<td class="p-4">
+<span class="px-2 py-0.5 border border-secondary-fixed-dim text-secondary-fixed-dim bg-secondary-container/10">[ VERIFIED ]</span>
+</td>
+</tr>
+<!-- Pending Row -->
+<tr class="border-b border-outline-variant hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant text-outline group-hover:text-primary-fixed-dim">002</td>
+<td class="p-4 border-r border-outline-variant text-on-surface">2077.05.21_14:28:44</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="text-primary-container">@ghost_node_x</span>
+</td>
+<td class="p-4 border-r border-outline-variant text-right">12</td>
+<td class="p-4 border-r border-outline-variant text-right font-bold text-primary-fixed">14,800.50</td>
+<td class="p-4">
+<span class="px-2 py-0.5 border border-outline text-outline bg-surface-container">[ PENDING ]</span>
+</td>
+</tr>
+<!-- Verified Row -->
+<tr class="border-b border-outline-variant hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant text-outline group-hover:text-primary-fixed-dim">003</td>
+<td class="p-4 border-r border-outline-variant text-on-surface">2077.05.21_14:15:10</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="text-primary-container">@null_vector</span>
+</td>
+<td class="p-4 border-r border-outline-variant text-right">01</td>
+<td class="p-4 border-r border-outline-variant text-right font-bold text-secondary-fixed">850.00</td>
+<td class="p-4">
+<span class="px-2 py-0.5 border border-secondary-fixed-dim text-secondary-fixed-dim bg-secondary-container/10">[ VERIFIED ]</span>
+</td>
+</tr>
+<!-- Void Row -->
+<tr class="border-b border-outline-variant hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant text-outline group-hover:text-primary-fixed-dim">004</td>
+<td class="p-4 border-r border-outline-variant text-on-surface">2077.05.21_13:59:59</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="text-primary-container">@rogue_daemon</span>
+</td>
+<td class="p-4 border-r border-outline-variant text-right">--</td>
+<td class="p-4 border-r border-outline-variant text-right font-bold text-error">0.00</td>
+<td class="p-4">
+<span class="px-2 py-0.5 border border-error text-error bg-error-container/10">[ VOID ]</span>
+</td>
+</tr>
+<!-- Verified Row -->
+<tr class="border-b border-outline-variant hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant text-outline group-hover:text-primary-fixed-dim">005</td>
+<td class="p-4 border-r border-outline-variant text-on-surface">2077.05.21_13:45:22</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="text-primary-container">@syntax_error</span>
+</td>
+<td class="p-4 border-r border-outline-variant text-right">07</td>
+<td class="p-4 border-r border-outline-variant text-right font-bold text-secondary-fixed">5,200.00</td>
+<td class="p-4">
+<span class="px-2 py-0.5 border border-secondary-fixed-dim text-secondary-fixed-dim bg-secondary-container/10">[ VERIFIED ]</span>
+</td>
+</tr>
+<!-- Verified Row -->
+<tr class="border-b border-outline-variant hover:bg-primary/5 transition-colors group">
+<td class="p-4 border-r border-outline-variant text-outline group-hover:text-primary-fixed-dim">006</td>
+<td class="p-4 border-r border-outline-variant text-on-surface">2077.05.21_13:20:11</td>
+<td class="p-4 border-r border-outline-variant">
+<span class="text-primary-container">@kernel_panic</span>
+</td>
+<td class="p-4 border-r border-outline-variant text-right">02</td>
+<td class="p-4 border-r border-outline-variant text-right font-bold text-secondary-fixed">1,120.00</td>
+<td class="p-4">
+<span class="px-2 py-0.5 border border-secondary-fixed-dim text-secondary-fixed-dim bg-secondary-container/10">[ VERIFIED ]</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Pagination -->
+<div class="bg-surface-container-high border-t border-outline-variant p-4 flex justify-between items-center font-code-snippet text-code-snippet">
+<div class="text-outline">
+                        SHOWING 1-6 OF 1,429 ENTRIES
+                    </div>
+<div class="flex gap-2">
+<button class="border border-outline-variant px-3 py-1 hover:bg-primary/10 transition-colors">PREV_BLOCK</button>
+<div class="flex">
+<button class="bg-primary-container text-on-primary-container border border-primary-container px-3 py-1">1</button>
+<button class="border border-outline-variant px-3 py-1 hover:bg-primary/10">2</button>
+<button class="border border-outline-variant px-3 py-1 hover:bg-primary/10">3</button>
+<span class="px-3 py-1 text-outline">...</span>
+<button class="border border-outline-variant px-3 py-1 hover:bg-primary/10">239</button>
+</div>
+<button class="border border-outline-variant px-3 py-1 hover:bg-primary/10 transition-colors">NEXT_BLOCK</button>
+</div>
+</div>
+</div>
+<!-- System Metrics Grid (Bento Style) -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Total Volume -->
+<div class="md:col-span-2 border border-outline-variant p-6 bg-surface-container-low relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-30 transition-opacity">
+<span class="material-symbols-outlined text-[80px]">monitoring</span>
+</div>
+<div class="font-code-snippet text-code-snippet text-outline mb-2">24H_EXCHANGE_VOLUME</div>
+<div class="font-headline-lg text-headline-lg text-secondary-fixed">¤ 842,911.20</div>
+<div class="mt-4 flex items-center gap-2">
+<div class="h-1 flex-grow bg-surface-container-highest">
+<div class="h-full bg-secondary-fixed-dim w-[72%] shadow-[0_0_5px_#2ae500]"></div>
+</div>
+<span class="font-code-snippet text-code-snippet text-secondary-fixed-dim">+12.4%</span>
+</div>
+</div>
+<!-- Transaction Health -->
+<div class="border border-outline-variant p-6 bg-surface-container-low">
+<div class="font-code-snippet text-code-snippet text-outline mb-2">PROTOCOL_INTEGRITY</div>
+<div class="font-headline-lg text-headline-lg text-primary-container">99.98%</div>
+<div class="mt-4 font-code-snippet text-code-snippet text-outline-variant">
+                        [█████████████░]
+                    </div>
+</div>
+<!-- Live Feed -->
+<div class="border border-outline-variant p-6 bg-surface-container-low">
+<div class="font-code-snippet text-code-snippet text-outline mb-2">SYSTEM_LOG</div>
+<div class="space-y-1 font-code-snippet text-[11px] leading-tight">
+<div class="text-secondary-fixed-dim opacity-80">&gt; TR_001_SIG_VAL</div>
+<div class="text-on-surface-variant opacity-60">&gt; MEM_DUMP_COMPLETE</div>
+<div class="text-primary-fixed-dim opacity-80">&gt; KEY_ROTATION_INIT</div>
+<div class="text-error opacity-80">&gt; VOID_DET_004</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

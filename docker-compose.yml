@@ -52,7 +52,6 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_URL: ""
-        NODE_ENV: development
     container_name: herramientas-frontend
     environment:
       NODE_ENV: production

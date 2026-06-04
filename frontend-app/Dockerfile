@@ -1,8 +1,8 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
-ARG NODE_ENV=development
-ENV NODE_ENV=$NODE_ENV
+# Force devDependencies installation regardless of NODE_ENV
+ENV NODE_ENV=development
 
 COPY package*.json ./
 RUN npm ci --legacy-peer-deps

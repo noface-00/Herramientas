@@ -69,5 +69,5 @@ volumes:
 
 networks:
   herramientas-network:
-    name: herramientas-network
-    driver: bridge
+    name: ${COMPOSE_PROJECT_NAME:-herramientas-network}
+    external: false

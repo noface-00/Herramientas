@@ -46,23 +46,6 @@ services:
       - herramientas-network
     restart: unless-stopped
 
-  frontend:
-    build:
-      context: ./frontend-app
-      dockerfile: Dockerfile
-      args:
-        VITE_API_URL: ""
-    container_name: herramientas-frontend
-    environment:
-      NODE_ENV: production
-    ports:
-      - "${FRONTEND_PORT:-8080}:80"
-    depends_on:
-      - backend
-    networks:
-      - herramientas-network
-    restart: unless-stopped
-
 volumes:
   pgdata:
     name: herramientas-pgdata

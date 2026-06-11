@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { AuthProvider } from "./context/AuthContext"
 import { PrivateRoute } from "./components/PrivateRoute"
@@ -12,6 +13,12 @@ import { Reportes } from "./pages/Reportes"
 import './styles/neon-protocol.css'
 
 export default function App() {
+  useEffect(() => {
+    const theme = localStorage.getItem("theme") || "dark"
+    document.documentElement.classList.remove("theme-dark", "theme-light")
+    document.documentElement.classList.add(theme === "dark" ? "theme-dark" : "theme-light")
+  }, [])
+
   return (
     <AuthProvider>
       <BrowserRouter>

@@ -1,9 +1,20 @@
+import { useState, useEffect } from "react"
 import { Outlet, Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 
-
 export function Layout() {
   const { logout } = useAuth()
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark")
+
+  useEffect(() => {
+    document.documentElement.classList.remove("theme-dark", "theme-light")
+    document.documentElement.classList.add(theme === "dark" ? "theme-dark" : "theme-light")
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === "dark" ? "light" : "dark")
+  }
 
   return (
     <div className="font-body-md overflow-x-hidden text-on-surface">
@@ -23,6 +34,16 @@ export function Layout() {
             <input className="bg-surface-container-low border border-outline-variant rounded-none pl-10 pr-4 py-1 text-code-snippet focus:ring-0 focus:border-primary-fixed-dim w-64" placeholder="EXECUTE_QUERY..." type="text" />
           </div>
           <div className="flex gap-4 items-center">
+            {/* Theme Toggle Button */}
+            <button 
+              onClick={toggleTheme} 
+              className="text-on-surface-variant hover:bg-primary/10 hover:text-primary-fixed-dim p-2 transition-all duration-100 active:opacity-50"
+              title={theme === "dark" ? "Switch to Light Protocol" : "Switch to Dark Protocol"}
+            >
+              <span className="material-symbols-outlined">
+                {theme === "dark" ? "light_mode" : "dark_mode"}
+              </span>
+            </button>
             <button className="text-on-surface-variant hover:bg-primary/10 hover:text-primary-fixed-dim p-2 transition-all duration-100 active:opacity-50">
               <span className="material-symbols-outlined">notifications</span>
             </button>
